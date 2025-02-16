@@ -1,0 +1,5 @@
+# Ignorar la carpeta de entorno virtual (env)
+env/
+
+# Ignorar la carpeta Config
+Config/

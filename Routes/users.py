@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse
 from Config.db import conn
 from Models.users import users
 from Schemas.User import User
+from Services.Users import UsersServices
 
 user = APIRouter()
 
@@ -12,7 +13,5 @@ def getUsers():
 
 @user.post('/users')
 def createUsers(user: User):
-    new_user = {"Name":user.name, "Email":user.email, "Password":user.password}
-    conn.execute(users.insert().values(new_user))
-    conn.commit()
+    UsersServices.createUser(user)
     return JSONResponse(status_code=200, content={"message": "User created successfully"})
