@@ -7,11 +7,11 @@ class User(BaseModel):
 
 
 class UserOut(BaseModel):
-    name: str
-    email: str
+    Name: str
+    Email: str
 
     class Config:
-        orm_mode = True
+        from_attributes = True
 
 class Token(BaseModel):
     access_token: str

@@ -1,6 +1,6 @@
 from Config.db import conn
 from Schemas.User import User
-from Models.users import users
+from Models.users import User as users
 
 
 
