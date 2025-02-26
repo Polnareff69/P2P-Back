@@ -7,11 +7,12 @@ Base = declarative_base()
 
 class User(Base):
     __tablename__ = 'users'
-
     UserId = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     Name = Column(String(255))
     Email = Column(String(255))
     Password = Column(String(255))
+
+    
 
     # Método to_dict para convertir a diccionario
     def to_dict(self):
