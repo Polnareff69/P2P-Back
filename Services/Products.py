@@ -2,6 +2,7 @@ import uuid
 from fastapi.responses import JSONResponse
 from Config.db import conn
 from Models.products import Product
+from Repositories.GenericRepository import GenericRepository
 
 
 
@@ -19,3 +20,8 @@ class ProductServices:
             conn.add(new_product)
             conn.commit()
             return True
+    
+
+    def GetProduct():
+          productos = GenericRepository.get_all()
+          return productos

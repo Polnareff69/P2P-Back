@@ -14,3 +14,8 @@ product = APIRouter()
 def createProduct(product: ProductCreate):
     ProductServices.createProduct(product)
     return JSONResponse(status_code=200, content={"message": "User created successfully"})
+
+
+@product.get('/product/all')
+def get_product():
+    return ProductServices.GetProduct()
