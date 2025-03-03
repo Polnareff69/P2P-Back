@@ -6,6 +6,7 @@ from Models.users import User as users
 from Schemas.User import UserOut, User, Token
 from Utils.Auth import *
 from sqlalchemy import select
+from Repositories.GenericRepository import GenericRepository
 router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -21,8 +22,13 @@ def register_user(user: User):
         raise HTTPException(status_code=400, detail="Username already registered")
     
     hashed_password = get_password_hash(user.password)
-    new_user = {"Name":user.name, "Email":user.email, "Password":hashed_password}
-    conn.execute(users.insert().values(new_user))
+    new_user = users(
+        Name = user.name,
+        Email= user.email,
+        Password = hashed_password, 
+        Role = "user"
+    )
+    conn.add(new_user)
     conn.commit()
     return JSONResponse(status_code=200, content={"message": "User created successfully"})
 
@@ -33,7 +39,7 @@ def login_for_access_token(user: User):
     print(type(userDB))
     if not userDB or not verify_password(user.password, userDB.Password):
         return JSONResponse(status_code=401, content={"message": "Papi por aqui no es"})
-    access_token = create_access_token(data={"sub": user.name, "email":user.email})
+    access_token = create_access_token(data={"sub": user.name, "email":user.email, "Role":user.role})
     return JSONResponse(status_code=200, content={"access_token": access_token, "token_type": "bearer"})
 
 # Verificar usuario con JWT (ruta protegida)

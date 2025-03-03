@@ -4,6 +4,10 @@ class User(BaseModel):
     name: str
     email: str
     password: str
+    role :str
+
+    class Config:
+        orm_mode = True
 
 
 class UserOut(BaseModel):

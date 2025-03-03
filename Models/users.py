@@ -11,7 +11,7 @@ class User(Base):
     Name = Column(String(255))
     Email = Column(String(255))
     Password = Column(String(255))
-
+    Role = Column(String(255))
     
 
     # Método to_dict para convertir a diccionario
