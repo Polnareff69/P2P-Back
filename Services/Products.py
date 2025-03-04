@@ -7,7 +7,7 @@ from Repositories.GenericRepository import GenericRepository
 
 
 
-
+product_repo = GenericRepository(session=conn, model=Product)
 class ProductServices:
     def createProduct(product: Product):
             #new_Product = {"Name":product.Name, "Description":product.Description, "Price":product.Price, "UserId":product.UserId}
@@ -23,5 +23,5 @@ class ProductServices:
     
 
     def GetProduct():
-          productos = GenericRepository.get_all()
+          productos = product_repo.get_all()
           return productos

@@ -1,5 +1,6 @@
 from .users import User
-from sqlalchemy import ForeignKey, create_engine, Column, String
+from .company import Company
+from sqlalchemy import ForeignKey, Column, String
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
@@ -15,6 +16,8 @@ class Product(Base):
     price = Column(String(255))
     userid = Column(UUID(as_uuid=True), ForeignKey(User.UserId), nullable=False)
     user = relationship(User, backref="products")
+    companyid = Column(UUID(as_uuid=True), ForeignKey(Company.CompanyId))
+    company = relationship(Company, backref="products")
 
     # Método to_dict para convertir a diccionario
     def to_dict(self):

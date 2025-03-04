@@ -4,12 +4,20 @@ from sqlalchemy.ext.declarative import as_declarative
 
 class GenericRepository:
     def __init__(self, session: Session, model):
-        self.session = session  # La sesión de SQLAlchemy
-        self.model = model      # El modelo que este repositorio gestionará
+        self.session = session  
+        self.model = model     
     
     def create(self, data):
         """Crear una nueva entidad."""
-        instance = self.model(**data)
+        if isinstance(data, self.model):
+            # If data is an instance of the model, we need to create an instance based on the attributes.
+            instance = data
+        elif isinstance(data, dict):
+            # If data is a dictionary, unpack it to create a new instance.
+            instance = self.model(**data)
+        else:
+            raise TypeError(f"Expected data to be either a dictionary or an instance of {self.model.__name__}, but got {type(data)}")
+
         self.session.add(instance)
         self.session.commit()
         return instance

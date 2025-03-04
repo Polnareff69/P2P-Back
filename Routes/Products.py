@@ -1,6 +1,5 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
-from Config.db import conn
 from Models.users import User as users
 from Schemas.Products import ProductCreate 
 from Services.Products import ProductServices

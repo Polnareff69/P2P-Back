@@ -13,3 +13,6 @@ class UsersServices:
             conn.execute(users.insert().values(new_user))
             conn.commit()
             return True
+    
+
+
