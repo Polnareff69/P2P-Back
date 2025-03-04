@@ -4,7 +4,7 @@ from Models.company import Company
 from Repositories.GenericRepository import GenericRepository
 
 
-product_repo = GenericRepository(session=conn, model=Company)
+company_repo = GenericRepository(session=conn, model=Company)
 
 class companyService:
     def createCompany(company: Company):
@@ -12,5 +12,10 @@ class companyService:
             Name = company.name,
             UserId = company.userid
         )
-        product_repo.create(new_company)
+        company_repo.create(new_company)
         return True
+    
+
+    def getCompanies():
+        companies = company_repo.get_all()
+        return companies

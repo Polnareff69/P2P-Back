@@ -12,3 +12,6 @@ def Create_Company(company: CompanyCreate):
     return JSONResponse(status_code=200, content={"message": "Company created successfully"})
 
 
+@company.get('/compnay/all')
+def get_companies():
+    return companyService.getCompanies()
