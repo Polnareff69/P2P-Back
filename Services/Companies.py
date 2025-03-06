@@ -10,7 +10,9 @@ class companyService:
     def createCompany(company: Company):
         new_company = Company(
             Name = company.name,
-            UserId = company.userid
+            UserId = company.userid,
+            phonenumber = company.phonenumber,
+            description = company.description
         )
         company_repo.create(new_company)
         return True

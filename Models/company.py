@@ -13,5 +13,7 @@ class Company(Base):
     CompanyId = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     Name = Column(String, index=True)
     UserId = Column(UUID(as_uuid=True), ForeignKey(User.UserId))
+    phonenumber = Column(String)
+    description = Column(String)
     owner = relationship(User, backref="companies")
    
