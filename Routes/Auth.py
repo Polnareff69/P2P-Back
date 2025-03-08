@@ -9,8 +9,7 @@ from Repositories.GenericRepository import GenericRepository
 from Schemas.User import UserCreate
 from Services.Auth import AuthServices
 
-router = APIRouter()
-
+router = APIRouter(tags=["Autenticacion"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 

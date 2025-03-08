@@ -4,7 +4,7 @@ from Services.Companies import companyService
 from fastapi.responses import JSONResponse
 
 
-company = APIRouter()
+company = APIRouter(tags=["Compañias"])
 
 @company.post('/company')
 def Create_Company(company: CompanyCreate):

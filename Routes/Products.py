@@ -5,7 +5,7 @@ from Schemas.Products import ProductCreate
 from Services.Products import ProductServices
 
 
-product = APIRouter()
+product = APIRouter(tags=["Productos"])
 
 
 
