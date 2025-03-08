@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 from fastapi.security import OAuth2PasswordBearer
 from Config.db import conn
 from Models.users import User as users
-from Schemas.User import UserOut, User, Token
+from Schemas.User import UserOut, UserIn, Token
 from Utils.Auth import *
 from Repositories.GenericRepository import GenericRepository
 from Schemas.User import UserCreate
@@ -22,13 +22,9 @@ def register_user(user: UserCreate):
 
 # Login y generación del JWT
 @router.post("/token", response_model=Token)
-def login_for_access_token(user: User):
-    userDB = conn.query(users).filter(users.Name == user.name).first()
-    print(type(userDB))
-    if not userDB or not verify_password(user.password, userDB.Password):
-        return JSONResponse(status_code=401, content={"message": "Papi por aqui no es"})
-    access_token = create_access_token(data={"sub": user.name, "email":user.email, "Role":user.role})
-    return JSONResponse(status_code=200, content={"access_token": access_token, "token_type": "bearer"})
+def login_for_access_token(user: UserIn):
+    access_token = AuthServices.AuthenticateUser(user)
+    return JSONResponse(status_code=200, content=access_token)
 
 # Verificar usuario con JWT (ruta protegida)
 @router.get("/users/me", response_model=UserOut)
