@@ -5,8 +5,10 @@ from Config.db import conn
 from Models.users import User as users
 from Schemas.User import UserOut, User, Token
 from Utils.Auth import *
-from sqlalchemy import select
 from Repositories.GenericRepository import GenericRepository
+from Schemas.User import UserCreate
+from Services.Auth import AuthServices
+
 router = APIRouter()
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
@@ -15,22 +17,8 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 # Registro de usuario
 @router.post("/register")
-def register_user(user: User):
-    # Verificamos si el usuario ya existe
-    query = select(users).where(users.Name == user.name)
-    if conn.execute(query).fetchone():
-        raise HTTPException(status_code=400, detail="Username already registered")
-    
-    hashed_password = get_password_hash(user.password)
-    new_user = users(
-        Name = user.name,
-        Email= user.email,
-        Password = hashed_password, 
-        Role = "user"
-    )
-    conn.add(new_user)
-    conn.commit()
-    return JSONResponse(status_code=200, content={"message": "User created successfully"})
+def register_user(user: UserCreate):
+    return AuthServices.RegisterUser(user)
 
 # Login y generación del JWT
 @router.post("/token", response_model=Token)

@@ -10,6 +10,12 @@ class User(BaseModel):
         orm_mode = True
 
 
+class UserCreate(BaseModel):
+    name: str
+    email: str
+    password: str
+
+
 class UserOut(BaseModel):
     Name: str
     Email: str

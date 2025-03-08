@@ -48,3 +48,7 @@ class GenericRepository:
             self.session.commit()
             return entity
         return None
+    
+    def get_by_name(self, name_field: str, name_value: str):
+        """Obtener una entidad por su nombre."""
+        return self.session.query(self.model).filter(getattr(self.model, name_field) == name_value).first()

@@ -1,18 +1,20 @@
+import uuid
 from Config.db import conn
-from Schemas.User import User
-from Models.users import User as users
+from Schemas.User import UserCreate
+from Models.users import User
+from  Repositories.GenericRepository import GenericRepository
 
 
 
 
 
+user_repo = GenericRepository(session=conn, model=User)
 class UsersServices:
-
-    def createUser(user: User):
-            new_user = {"Name":user.name, "Email":user.email, "Password":user.password}
-            conn.execute(users.insert().values(new_user))
-            conn.commit()
+    def createUser(user: UserCreate):
+            #new_user = {"Name":user.name, "Email":user.email, "Password":user.password}
+            new_user = User(
+                UserId = uuid.uuid4(),
+                Name = user.name,
+                Email = user.email,
+            )
             return True
-    
-
-
