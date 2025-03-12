@@ -9,17 +9,12 @@ from Utils.Auth import verify_token
 company = APIRouter(tags=["Compañias"])
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
-@company.post('/company')
-def Create_Company(company: CompanyCreate):
-    companyService.createCompany(company)
-    return JSONResponse(status_code=200, content={"message": "Company created successfully"})
-
 
 @company.get('/compnay/all')
 def get_companies():
     return companyService.getCompanies()
 
-@company.post('/company/user')
+@company.post('/company')
 def Create_Company_User(company: CompanyCreateNoUser,token: str = Depends(oauth2_scheme)):
     payload = verify_token(token)
     if payload is None:
