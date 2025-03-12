@@ -24,7 +24,8 @@ class AuthServices:
             Role="user"
         )
         user_repo.create(new_user)
-        return JSONResponse(status_code=200, content={"message": "User created successfully"})
+        acces_token = create_access_token(data={"sub": user.name, "email": user.email, "Role": "user"})
+        return JSONResponse(status_code=200, content={"message": "User created successfully", "Token": acces_token})
 
     def AuthenticateUser(user: UserIn):
         Usuario = user_repo.get_by_name("Name", user.name)
