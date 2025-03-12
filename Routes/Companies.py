@@ -15,7 +15,7 @@ def get_companies():
     return companyService.getCompanies()
 
 @company.post('/company')
-def Create_Company_User(company: CompanyCreateNoUser,token: str = Depends(oauth2_scheme)):
+def Create_Company(company: CompanyCreateNoUser,token: str = Depends(oauth2_scheme)):
     payload = verify_token(token)
     if payload is None:
         raise HTTPException(status_code=401, detail="Invalid token")
