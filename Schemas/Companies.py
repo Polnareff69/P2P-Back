@@ -10,3 +10,11 @@ class CompanyCreate(BaseModel):
 
     class Config:
         orm_mode = True 
+
+class CompanyCreateNoUser(BaseModel):
+    name: str
+    phonenumber: str 
+    description: str
+
+    class Config:
+        orm_mode = True 
