@@ -30,15 +30,24 @@ class GenericRepository:
         """Obtener todas las entidades de ese modelo."""
         return self.session.query(self.model).all()
     
-    def update(self, entity_id, data):
-        """Actualizar una entidad existente."""
+    # repositories/GenericRepository.py
+    def update(self, entity_id, data: dict):
+        """Actualizar una entidad existente de manera dinámica, pero ignorando valores null/None."""
         entity = self.get_by_id(entity_id)
+        
         if entity:
             for key, value in data.items():
-                setattr(entity, key, value)
+                if value is None:  # Si el valor es None (equivalente a null en JSON), lo ignoramos.
+                    continue
+                if hasattr(entity, key):
+                    setattr(entity, key, value)
+                else:
+                    print(f"Atributo {key} no existe en la entidad {self.model.__name__}")
+            
             self.session.commit()
             return entity
         return None
+
     
     def delete(self, entity_id):
         """Eliminar una entidad por su ID."""
@@ -52,3 +61,21 @@ class GenericRepository:
     def get_by_name(self, name_field: str, name_value: str):
         """Obtener una entidad por su nombre."""
         return self.session.query(self.model).filter(getattr(self.model, name_field) == name_value).first()
+
+
+    def updateByName(self, ColumnName, CompaniName, data: dict):
+        """Actualizar una entidad existente de manera dinámica, pero ignorando valores null/None."""
+        entity = self.get_by_name(ColumnName , CompaniName)
+        
+        if entity:
+            for key, value in data.items():
+                if value is None:  # Si el valor es None (equivalente a null en JSON), lo ignoramos.
+                    continue
+                if hasattr(entity, key):
+                    setattr(entity, key, value)
+                else:
+                    print(f"Atributo {key} no existe en la entidad {self.model.__name__}")
+            
+            self.session.commit()
+            return entity
+        return None

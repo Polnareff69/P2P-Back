@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import UUID4, BaseModel
+from typing import Optional
 
 
 class CompanyCreate(BaseModel):
@@ -18,3 +19,11 @@ class CompanyCreateNoUser(BaseModel):
 
     class Config:
         orm_mode = True 
+        
+class UpdateCompany(BaseModel):
+    name: str
+    phonenumber: Optional[str] = None
+    description: Optional[str] = None
+
+    class Config:
+        orm_mode = True
