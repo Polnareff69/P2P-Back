@@ -16,7 +16,9 @@ class ProductServices:
                 name=product.Name,
                 description=product.Description,
                 price=product.Price,
-                userid=product.UserId)
+                userid=product.UserId,
+                companyid = "451be262-ebe0-4f24-b41f-3c5feff5a0d6"
+                )
             conn.add(new_product)
             conn.commit()
             return True
