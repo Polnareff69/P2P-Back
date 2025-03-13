@@ -17,7 +17,8 @@ class companyService:
             Name = company.name,
             UserId = user.UserId,
             phonenumber = company.phonenumber,
-            description = company.description
+            description = company.description,
+            companyid = "451be262-ebe0-4f24-b41f-3c5feff5a0d6"
         )
         company_repo.create(new_company)
         return True

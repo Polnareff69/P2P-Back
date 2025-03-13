@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from Routes.Companies import company
-from Routes.Users import user
+from Routes.users import user
 from Routes.Auth import router as auth_router
 from Routes.Products import product
 
