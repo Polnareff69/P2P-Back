@@ -30,3 +30,6 @@ class companyService:
         companyUpdate = company_repo.updateByName("Name", company.name, company.dict(exclude_unset=True))
         return True
 
+    def deleteCompanies(id : uuid):
+        company_repo.delete("CompanyId",id)
+        return True

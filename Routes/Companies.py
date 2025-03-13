@@ -1,3 +1,4 @@
+from uuid import UUID
 from fastapi import APIRouter, HTTPException ,Depends
 from fastapi.security import OAuth2PasswordBearer
 from Schemas.Companies import CompanyCreateNoUser, CompanyCreate, UpdateCompany
@@ -26,7 +27,13 @@ def Create_Company(company: CompanyCreateNoUser,token: str = Depends(oauth2_sche
     return JSONResponse(status_code= 200, content="Puro sexo")
 
 
-@company.post('/company/update')
+@company.put('/company/update')
 def Update_Company(company: UpdateCompany):
     companyService.updateCompanies(company)
     return JSONResponse(status_code=200, content="Empresa Actualizada mi papa")
+
+
+@company.delete('/company/{CompanyId}')
+def Delete_Company(CompanyId: UUID):
+    companyService.deleteCompanies(CompanyId)
+    return JSONResponse(status_code=200, content="Company delete Sucessfull") 

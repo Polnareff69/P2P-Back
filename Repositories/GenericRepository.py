@@ -22,9 +22,9 @@ class GenericRepository:
         self.session.commit()
         return instance
     
-    def get_by_id(self, entity_id):
+    def get_by_id(self, name_field ,entity_id):
         """Obtener una entidad por su ID."""
-        return self.session.query(self.model).filter_by(id=entity_id).first()
+        return self.session.query(self.model).filter(getattr(self.model, name_field) == entity_id).first()
     
     def get_all(self):
         """Obtener todas las entidades de ese modelo."""
@@ -49,9 +49,9 @@ class GenericRepository:
         return None
 
     
-    def delete(self, entity_id):
+    def delete(self, name_field ,entity_id):
         """Eliminar una entidad por su ID."""
-        entity = self.get_by_id(entity_id)
+        entity = self.get_by_id(name_field, entity_id)
         if entity:
             self.session.delete(entity)
             self.session.commit()
