@@ -2,26 +2,31 @@ import uuid
 from fastapi.responses import JSONResponse
 from Config.db import conn
 from Models.products import Product
+from Models.users import User
+from Models.company import Company
 from Repositories.GenericRepository import GenericRepository
 
 
 
 
 product_repo = GenericRepository(session=conn, model=Product)
+user_repo = GenericRepository(session=conn, model=User)
+company_repo = GenericRepository(session=conn, model=Company)
 class ProductServices:
-    def createProduct(product: Product):
-            #new_Product = {"Name":product.Name, "Description":product.Description, "Price":product.Price, "UserId":product.UserId}
+    def createProduct(product: Product, companyId: str):
+            company = company_repo.get_by_id("CompanyId", companyId)
+            if not company:
+                  return False
             new_product = Product(
                 productid=uuid.uuid4(),  
                 name=product.Name,
                 description=product.Description,
                 price=product.Price,
-                userid=product.UserId,
-                companyid = "451be262-ebe0-4f24-b41f-3c5feff5a0d6"
+                companyid = company.CompanyId
                 )
-            conn.add(new_product)
-            conn.commit()
-            return True
+            product_repo.create(new_product)
+            return JSONResponse(status_code=200, content={"message": "Product created successfully"})
+
     
 
     def GetProduct():

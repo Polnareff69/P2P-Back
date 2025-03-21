@@ -18,3 +18,7 @@ class UsersServices:
                 Email = user.email,
             )
             return True
+    
+
+    def getUserCompanies():
+          return True

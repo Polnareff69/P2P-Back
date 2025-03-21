@@ -14,8 +14,6 @@ class Product(Base):
     name = Column(String(255))
     description = Column(String(255))
     price = Column(String(255))
-    userid = Column(UUID(as_uuid=True), ForeignKey(User.UserId), nullable=False)
-    user = relationship(User, backref="products")
     companyid = Column(UUID(as_uuid=True), ForeignKey(Company.CompanyId))
     company = relationship(Company, backref="products")
 
