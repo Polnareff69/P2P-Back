@@ -21,7 +21,7 @@ class ProductServices:
                 productid=uuid.uuid4(),  
                 name=product.Name,
                 description=product.Description,
-                price=product.Price,
+                price=int(product.Price),
                 companyid = company.CompanyId
                 )
             product_repo.create(new_product)

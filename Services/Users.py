@@ -21,4 +21,7 @@ class UsersServices:
     
 
     def getUserCompanies():
-          return True
+          def getUserCompanies(userName: str):
+                user = user_repo.get_by_name("Name", userName)
+                userid = user.id
+                companies = user_repo.get_related()

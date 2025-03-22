@@ -27,3 +27,4 @@ def Obtener_Compañias_Usuario(token: str = Depends(oauth2_scheme)):
         raise HTTPException(status_code=401, detail="Invalid Token")
     username = payload.get("sub")
     UsersServices.getUserCompanies()
+    

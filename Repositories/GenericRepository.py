@@ -79,3 +79,9 @@ class GenericRepository:
             self.session.commit()
             return entity
         return None
+    
+
+    def get_related(self, related_model, relation_field, entity_id):
+        """Obtener las entidades relacionadas (como Companies de un User)."""
+        # Usamos 'joinedload' para realizar un "join" explícito
+        return self.session.query(self.model).filter(getattr(self.model, relation_field) == entity_id).options(joinedload(related_model)).all()
