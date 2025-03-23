@@ -20,7 +20,7 @@ class companyService:
             description = company.description,
         )
         company_repo.create(new_company)
-        return True
+        return new_company
     
     def getCompanies():
         companies = company_repo.get_all()

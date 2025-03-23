@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from pydantic import UUID4, BaseModel
 from typing import Optional
+from uuid import UUID
 
 
 class CompanyCreate(BaseModel):
@@ -26,4 +27,12 @@ class UpdateCompany(BaseModel):
     description: Optional[str] = None
 
     class Config:
+        orm_mode = True
+
+class CompanyOut(BaseModel):
+    CompanyId: UUID
+    Name: str
+
+    class Config:
+        from_attributes=True
         orm_mode = True

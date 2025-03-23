@@ -17,3 +17,8 @@ class Company(Base):
     description = Column(String)
     owner = relationship(User, backref="companies")
    
+    def to_dict(self):
+        return {
+            "Name": self.Name,
+            "CompanyId": self.CompanyId
+        }

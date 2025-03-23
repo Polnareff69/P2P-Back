@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException ,Depends
 from fastapi.security import OAuth2PasswordBearer
-from Schemas.Companies import CompanyCreateNoUser, CompanyCreate, UpdateCompany
+from Schemas.Companies import CompanyCreateNoUser, CompanyCreate, UpdateCompany, CompanyOut
 from Services.Companies import companyService
 from fastapi.responses import JSONResponse
 from Utils.Auth import verify_token
@@ -23,8 +23,11 @@ def Create_Company(company: CompanyCreateNoUser,token: str = Depends(oauth2_sche
     
     userName = payload.get("sub")
     print(userName)
-    companyService.createCompanyWithUser(company,userName)
-    return JSONResponse(status_code= 200, content="Puro sexo")
+    compani = companyService.createCompanyWithUser(company,userName)
+    company_instance = CompanyOut.model_validate(compani)
+    company_dict = company_instance.model_dump()
+    company_dict['CompanyId'] = str(company_dict['CompanyId']) 
+    return JSONResponse(status_code= 200, content={"Message":"Puro sexo", "Company":company_dict})
 
 
 @company.put('/company/update')
