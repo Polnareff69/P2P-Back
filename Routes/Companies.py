@@ -2,6 +2,7 @@ from uuid import UUID
 from fastapi import APIRouter, HTTPException ,Depends
 from fastapi.security import OAuth2PasswordBearer
 from Schemas.Companies import CompanyCreateNoUser, CompanyCreate, UpdateCompany, CompanyOut
+from Schemas.Products import ProductOut
 from Services.Companies import companyService
 from fastapi.responses import JSONResponse
 from Utils.Auth import verify_token
@@ -22,7 +23,6 @@ def Create_Company(company: CompanyCreateNoUser,token: str = Depends(oauth2_sche
         raise HTTPException(status_code=401, detail="Invalid token")
     
     userName = payload.get("sub")
-    print(userName)
     compani = companyService.createCompanyWithUser(company,userName)
     company_instance = CompanyOut.model_validate(compani)
     company_dict = company_instance.model_dump()
@@ -40,3 +40,8 @@ def Update_Company(company: UpdateCompany):
 def Delete_Company(CompanyId: UUID):
     companyService.deleteCompanies(CompanyId)
     return JSONResponse(status_code=200, content="Company delete Sucessfull") 
+
+
+@company.get('/company/products/{CompanyId}', response_model=list[ProductOut])
+def Get_Company_Products(CompanyId: UUID):
+    return companyService.getProducsFromCompany(CompanyId)

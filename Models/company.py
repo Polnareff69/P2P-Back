@@ -3,6 +3,7 @@ from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
+
 import uuid
 
 
@@ -16,6 +17,8 @@ class Company(Base):
     phonenumber = Column(String)
     description = Column(String)
     owner = relationship(User, backref="companies")
+
+
    
     def to_dict(self):
         return {

@@ -1,6 +1,9 @@
 # Repositories/GenericRepository.py
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 from sqlalchemy.ext.declarative import as_declarative
+from sqlalchemy.orm import joinedload
+
 
 class GenericRepository:
     def __init__(self, session: Session, model):
@@ -31,9 +34,9 @@ class GenericRepository:
         return self.session.query(self.model).all()
     
     # repositories/GenericRepository.py
-    def update(self, entity_id, data: dict):
+    def update(self, name_field ,entity_id, data: dict):
         """Actualizar una entidad existente de manera dinámica, pero ignorando valores null/None."""
-        entity = self.get_by_id(entity_id)
+        entity = self.get_by_id(name_field, entity_id)
         
         if entity:
             for key, value in data.items():
@@ -81,7 +84,7 @@ class GenericRepository:
         return None
     
 
-    def get_related(self, related_model, relation_field, entity_id):
-        """Obtener las entidades relacionadas (como Companies de un User)."""
-        # Usamos 'joinedload' para realizar un "join" explícito
-        return self.session.query(self.model).filter(getattr(self.model, relation_field) == entity_id).options(joinedload(related_model)).all()
+    def get_related(self, enyity_asos):
+        """Obtener las relaciones 'uno a muchos' de una entidad."""
+        # Accede al modelo de la entidad relacionada (como 'productos' de la 'empresa')
+        return self.session.query(self.model, enyity_asos).join(enyity_asos).all()

@@ -9,3 +9,9 @@ class ProductCreate(BaseModel):
 
     class Config:
         orm_mode = True
+
+class ProductOut(BaseModel):
+    Name: str
+
+    class Config:
+        orm_mode = True
