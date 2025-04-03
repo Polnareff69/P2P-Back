@@ -16,6 +16,7 @@ class Product(Base):
     price = Column(String(255))
     companyid = Column(UUID(as_uuid=True), ForeignKey(Company.CompanyId))
     company = relationship(Company, backref="products")
+    
 
     # Método to_dict para convertir a diccionario
     def to_dict(self):

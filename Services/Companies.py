@@ -5,11 +5,12 @@ from Models.products import Product
 from Models.users import User
 from Schemas.Companies import UpdateCompany 
 from Repositories.GenericRepository import GenericRepository
+from Repositories.ProductRepository import ProductRepository
 
 
 company_repo = GenericRepository(session=conn, model=Company)
 user_repo = GenericRepository(session=conn, model=User)
-product_repo = GenericRepository(session=conn, model=Product)
+product_repo = ProductRepository(session=conn)
 
 class companyService:
     
@@ -41,8 +42,6 @@ class companyService:
         return True
     
     def getProducsFromCompany(id: uuid):
-        company = company_repo.get_by_id("CompanyId", id)
-        products = company_repo.get_related(Product)
-        # Accediendo solo a los productos
-        products = [product for product, _ in products]
+        products = product_repo.getCompanyProducts(id)
+        products = [product for product in products]
         return products

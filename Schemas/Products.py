@@ -11,7 +11,7 @@ class ProductCreate(BaseModel):
         orm_mode = True
 
 class ProductOut(BaseModel):
-    Name: str
+    name: str
 
     class Config:
         orm_mode = True

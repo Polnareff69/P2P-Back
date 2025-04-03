@@ -17,7 +17,7 @@ class Company(Base):
     phonenumber = Column(String)
     description = Column(String)
     owner = relationship(User, backref="companies")
-
+    
 
    
     def to_dict(self):

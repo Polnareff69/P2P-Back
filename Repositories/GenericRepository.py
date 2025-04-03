@@ -83,8 +83,3 @@ class GenericRepository:
             return entity
         return None
     
-
-    def get_related(self, enyity_asos):
-        """Obtener las relaciones 'uno a muchos' de una entidad."""
-        # Accede al modelo de la entidad relacionada (como 'productos' de la 'empresa')
-        return self.session.query(self.model, enyity_asos).join(enyity_asos).all()
