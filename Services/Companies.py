@@ -45,3 +45,8 @@ class companyService:
         products = product_repo.getCompanyProducts(id)
         products = [product for product in products]
         return products
+    
+    def getOwner(id: uuid):
+        company = company_repo.get_by_id("CompanyId", id)
+        user = company.owner
+        return user

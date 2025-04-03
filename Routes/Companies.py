@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException ,Depends
 from fastapi.security import OAuth2PasswordBearer
 from Schemas.Companies import CompanyCreateNoUser, CompanyCreate, UpdateCompany, CompanyOut
 from Schemas.Products import ProductOut
+from Schemas.User import UserOut
 from Services.Companies import companyService
 from fastapi.responses import JSONResponse
 from Utils.Auth import verify_token
@@ -45,3 +46,8 @@ def Delete_Company(CompanyId: UUID):
 @company.get('/company/products/{CompanyId}', response_model=list[ProductOut])
 def Get_Company_Products(CompanyId: UUID):
     return companyService.getProducsFromCompany(CompanyId)
+
+
+@company.get('/company/owner/{CompanyId}', response_model=UserOut)
+def get_Company_Owner(CompanyId: UUID):
+    return companyService.getOwner(CompanyId)
