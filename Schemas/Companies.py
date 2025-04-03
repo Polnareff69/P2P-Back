@@ -30,7 +30,6 @@ class UpdateCompany(BaseModel):
         orm_mode = True
 
 class CompanyOut(BaseModel):
-    CompanyId: UUID
     Name: str
 
     class Config:

@@ -3,13 +3,14 @@ from Config.db import conn
 from Schemas.User import UserCreate
 from Models.users import User
 from  Repositories.GenericRepository import GenericRepository
+from Repositories.UserRepository import UserRepository
+from Repositories.CompanyRepository import CompanyRepository
 
 
 
-
-
-user_repo = GenericRepository(session=conn, model=User)
-class UsersServices:
+user_repository = UserRepository(session=conn)
+company_repository = CompanyRepository(session=conn)
+class UserServices:
     def createUser(user: UserCreate):
             #new_user = {"Name":user.name, "Email":user.email, "Password":user.password}
             new_user = User(
@@ -20,8 +21,9 @@ class UsersServices:
             return True
     
 
-    def getUserCompanies():
-          def getUserCompanies(userName: str):
-                user = user_repo.get_by_name("Name", userName)
-                userid = user.id
-                companies = user_repo.get_related()
+    def getUserCompanies(username : str):
+          user = user_repository.get_by_name("Name",username)
+          companies = company_repository.getUserCompnay(user.UserId)
+          companies = [company for company in companies]
+          return companies
+          
