@@ -17,6 +17,7 @@ class companyService:
     def createCompanyWithUser(company: Company, userName: str):
         user = user_repo.get_by_name("Name", userName)
         new_company = Company(
+            CompanyId = uuid.uuid4(),
             Name = company.name,
             UserId = user.UserId,
             phonenumber = company.phonenumber,
