@@ -5,6 +5,7 @@ from Models.users import User as users
 from Schemas.Products import ProductCreate 
 from Services.Products import ProductServices
 from fastapi import UploadFile
+import os
 
 
 product = APIRouter(tags=["Productos"])
@@ -21,3 +22,12 @@ def get_product():
 @product.post("/uploadfile/")
 async def create_upload_file(file: UploadFile):
     return {"filename": file.filename}
+
+
+@product.post("/uploadfile/save")
+async def create_upload_file_save(file: UploadFile):
+    file_location = os.path.join("D:\JJ\P2P-Back-NAS", file.filename)
+    with open(file_location, "wb") as f:
+        content = await file.read()
+        f.write(content)
+    return {"filename": file.filename, "saved_to": file_location}
