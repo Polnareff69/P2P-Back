@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from Models.users import User as users
 from Schemas.Products import ProductCreate 
 from Services.Products import ProductServices
+from fastapi import UploadFile
 
 
 product = APIRouter(tags=["Productos"])
@@ -16,3 +17,7 @@ def createProduct(product: ProductCreate, CompanyId: UUID):
 @product.get('/product/all')
 def get_product():
     return ProductServices.GetProduct()
+
+@product.post("/uploadfile/")
+async def create_upload_file(file: UploadFile):
+    return {"filename": file.filename}
