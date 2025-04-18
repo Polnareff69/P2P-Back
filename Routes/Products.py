@@ -1,8 +1,8 @@
 from uuid import UUID
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from Models.users import User as users
-from Schemas.Products import ProductCreate 
+from Schemas.Products import ProductCreate, createProductFormData
 from Services.Products import ProductServices
 from fastapi import UploadFile
 import os
@@ -25,7 +25,8 @@ async def create_upload_file(file: UploadFile):
 
 
 @product.post("/uploadfile/save")
-async def create_upload_file_save(file: UploadFile):
+async def create_upload_file_save(product_form_data: createProductFormData = Depends()):
+    file = product_form_data.ProductImg
     file_location = os.path.join("D:\JJ\P2P-Back-NAS", file.filename)
     with open(file_location, "wb") as f:
         content = await file.read()

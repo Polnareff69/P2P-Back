@@ -1,5 +1,6 @@
-from fastapi import FastAPI
-from pydantic import UUID4, BaseModel
+from fastapi import FastAPI, Form, UploadFile, File
+from pydantic import BaseModel
+from typing import Annotated
 
 
 class ProductCreate(BaseModel):
@@ -12,6 +13,14 @@ class ProductCreate(BaseModel):
 
 class ProductOut(BaseModel):
     name: str
+
+
+class createProductFormData:
+    Name: Annotated[str, Form()]
+    Description: Annotated[str, Form()]
+    Price: Annotated[str, Form()]
+    ProductImg: Annotated[UploadFile, File()]
+    
 
     class Config:
         orm_mode = True
