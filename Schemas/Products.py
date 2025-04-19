@@ -15,7 +15,7 @@ class ProductOut(BaseModel):
     name: str
 
 
-class createProductFormData:
+class createProductFormData(BaseModel):
     Name: Annotated[str, Form()]
     Description: Annotated[str, Form()]
     Price: Annotated[str, Form()]

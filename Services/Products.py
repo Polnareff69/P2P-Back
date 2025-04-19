@@ -5,7 +5,8 @@ from Models.products import Product
 from Models.users import User
 from Models.company import Company
 from Repositories.GenericRepository import GenericRepository
-
+from Schemas.Products import createProductFormData
+import os
 
 
 
@@ -26,9 +27,32 @@ class ProductServices:
                 )
             product_repo.create(new_product)
             return JSONResponse(status_code=200, content={"message": "Product created successfully"})
+    
+    async def createProductImg(product: createProductFormData, companyId: str):
+        company = company_repo.get_by_id("CompanyId", companyId)
+        if not company:
+                return False
+        file = product.ProductImg
+        file_location = os.path.join("D:\JJ\P2P-Back-NAS", file.filename)
+        new_product = Product(
+            productid=uuid.uuid4(),  
+            name=product.Name,
+            description=product.Description,
+            price=int(product.Price),
+            companyid = company.CompanyId,
+            productimg = file_location
+            )
+        product_repo.create(new_product)
+        with open(file_location, "wb") as f:
+            content = await file.read()
+            f.write(content)
+        return JSONResponse(status_code=200, content={"message": "Product created successfully", "filename": file.filename, "saved_to": file_location})
 
     
 
     def GetProduct():
           productos = product_repo.get_all()
           return productos
+    
+    async def GetProductImg(fileLocation: str):
+          return fileLocation

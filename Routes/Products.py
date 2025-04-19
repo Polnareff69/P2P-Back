@@ -6,11 +6,12 @@ from Schemas.Products import ProductCreate, createProductFormData
 from Services.Products import ProductServices
 from fastapi import UploadFile
 import os
+from fastapi.responses import FileResponse
 
 
 product = APIRouter(tags=["Productos"])
 
-@product.post('/product/{CompanyId}')
+@product.post('/productOld/{CompanyId}')
 def createProduct(product: ProductCreate, CompanyId: UUID):
     ProductServices.createProduct(product,CompanyId)
     return JSONResponse(status_code=200, content={"message": "Product created successfully"})
@@ -24,11 +25,11 @@ async def create_upload_file(file: UploadFile):
     return {"filename": file.filename}
 
 
-@product.post("/uploadfile/save")
-async def create_upload_file_save(product_form_data: createProductFormData = Depends()):
-    file = product_form_data.ProductImg
-    file_location = os.path.join("D:\JJ\P2P-Back-NAS", file.filename)
-    with open(file_location, "wb") as f:
-        content = await file.read()
-        f.write(content)
-    return {"filename": file.filename, "saved_to": file_location}
+@product.post('/product/{CompanyId}')
+async def create_upload_file_save(CompanyId: UUID, product_form_data: createProductFormData = Depends()):
+    producto = await ProductServices.createProductImg(product_form_data, CompanyId)
+    return producto
+
+@product.get("/ProductImg",response_class=FileResponse)
+async def getProductImg(fileLocation:str):
+    return fileLocation
