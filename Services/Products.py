@@ -46,7 +46,7 @@ class ProductServices:
         with open(file_location, "wb") as f:
             content = await file.read()
             f.write(content)
-        return JSONResponse(status_code=200, content={"message": "Product created successfully", "filename": file.filename, "saved_to": file_location})
+        return JSONResponse(status_code=200, content={"message": "Product created successfully", "Nombre": product.Name, "Price": product.Price ,"saved_to": file_location})
 
     
 
