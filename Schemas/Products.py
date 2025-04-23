@@ -13,6 +13,10 @@ class ProductCreate(BaseModel):
 
 class ProductOut(BaseModel):
     name: str
+    description: str
+    price: int
+    productimg: str
+
 
 
 class createProductFormData(BaseModel):
