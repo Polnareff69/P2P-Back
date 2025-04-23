@@ -17,9 +17,9 @@ class Company(Base):
     phonenumber = Column(String)
     description = Column(String)
     owner = relationship(User, backref="companies")
+    companyimg = Column(String(255))
+    companybackgrnd = Column(String(255))
     
-
-   
     def to_dict(self):
         return {
             "Name": self.Name,

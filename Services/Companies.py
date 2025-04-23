@@ -3,9 +3,10 @@ from Config.db import conn
 from Models.company import Company
 from Models.products import Product
 from Models.users import User
-from Schemas.Companies import UpdateCompany 
+from Schemas.Companies import UpdateCompany, createCompanyFormData
 from Repositories.GenericRepository import GenericRepository
 from Repositories.ProductRepository import ProductRepository
+import os
 
 
 company_repo = GenericRepository(session=conn, model=Company)
@@ -51,3 +52,32 @@ class companyService:
         company = company_repo.get_by_id("CompanyId", id)
         user = company.owner
         return user
+    
+    async def createCompanyWithUserImg(company: createCompanyFormData, userName: str):
+        user = user_repo.get_by_name("Name", userName)
+        companyImg = company.companyimg
+        file_location1 = os.path.join("D:/JJ/P2P-Back-NAS", companyImg.filename)
+        companybackgrnd = company.companybackgrnd
+        file_location2 = os.path.join("D:/JJ/P2P-Back-NAS", companybackgrnd.filename)
+        new_company = Company(
+            CompanyId = uuid.uuid4(),
+            Name = company.name,
+            UserId = user.UserId,
+            phonenumber = company.phonenumber,
+            description = company.description,
+            companyimg = file_location1,
+            companybackgrnd = file_location2
+        )
+        nuevo_rol = {
+            "Role":"seller"
+        }
+        user_repo.update("UserId", user.UserId, nuevo_rol)
+        company_repo.create(new_company)
+        with open(file_location1, "wb") as f:
+            content = await companyImg.read()
+            f.write(content)
+        with open(file_location2, "wb") as f:
+            content = await companybackgrnd.read()
+            f.write(content)
+
+        return new_company

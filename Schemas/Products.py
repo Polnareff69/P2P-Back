@@ -17,14 +17,11 @@ class ProductOut(BaseModel):
     price: int
     productimg: str
 
-
-
 class createProductFormData(BaseModel):
     Name: Annotated[str, Form()]
     Description: Annotated[str, Form()]
     Price: Annotated[str, Form()]
     ProductImg: Annotated[UploadFile, File()]
     
-
     class Config:
         orm_mode = True

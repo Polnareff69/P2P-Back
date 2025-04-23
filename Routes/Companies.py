@@ -1,7 +1,7 @@
 from uuid import UUID
 from fastapi import APIRouter, HTTPException ,Depends
 from fastapi.security import OAuth2PasswordBearer
-from Schemas.Companies import CompanyCreateNoUser, CompanyCreate, UpdateCompany, CompanyOut
+from Schemas.Companies import CompanyCreateNoUser, createCompanyFormData, UpdateCompany, CompanyOut
 from Schemas.Products import ProductOut
 from Schemas.User import UserOut
 from Services.Companies import companyService
@@ -17,7 +17,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 def get_companies():
     return companyService.getCompanies()
 
-@company.post('/company')
+@company.post('/companyOld')
 def Create_Company(company: CompanyCreateNoUser,token: str = Depends(oauth2_scheme)):
     payload = verify_token(token)
     if payload is None:
@@ -51,3 +51,16 @@ def Get_Company_Products(CompanyId: UUID):
 @company.get('/company/owner/{CompanyId}', response_model=UserOut)
 def get_Company_Owner(CompanyId: UUID):
     return companyService.getOwner(CompanyId)
+
+
+@company.post('/company')
+async def Create_CompanyImg(company: createCompanyFormData  = Depends(), token: str = Depends(oauth2_scheme)):
+    payload = verify_token(token)
+    if payload is None:
+        raise HTTPException(status_code=401, detail="Invalid token")
+    userName = payload.get("sub")
+    compani = await companyService.createCompanyWithUserImg(company,userName)
+    company_instance = CompanyOut.model_validate(compani)
+    company_dict = company_instance.model_dump()
+    company_dict['CompanyId'] = str(company_dict['CompanyId']) 
+    return JSONResponse(status_code= 200, content={"Message":"Puro sexo", "Company":company_dict})

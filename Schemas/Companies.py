@@ -1,7 +1,8 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Form, UploadFile, File
 from pydantic import UUID4, BaseModel
 from typing import Optional
 from uuid import UUID
+from typing import Annotated
 
 
 class CompanyCreate(BaseModel):
@@ -35,4 +36,15 @@ class CompanyOut(BaseModel):
 
     class Config:
         from_attributes=True
+        orm_mode = True
+
+
+class createCompanyFormData(BaseModel):
+    name: Annotated[str, Form()]
+    description: Annotated[str, Form()]
+    phonenumber: Annotated[str, Form()]
+    companyimg: Annotated[UploadFile, File()]
+    companybackgrnd: Annotated[UploadFile, File()]
+    
+    class Config:
         orm_mode = True
