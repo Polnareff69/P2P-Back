@@ -3,6 +3,8 @@ from pydantic import UUID4, BaseModel
 from typing import Optional
 from uuid import UUID
 from typing import Annotated
+from typing import Optional
+from Schemas.User import UserOut
 
 
 class CompanyCreate(BaseModel):
@@ -47,4 +49,19 @@ class createCompanyFormData(BaseModel):
     companybackgrnd: Annotated[UploadFile, File()]
     
     class Config:
+        orm_mode = True
+
+
+class CompanyFullOut(BaseModel):
+    CompanyId: UUID4
+    Name: str
+    UserId: UUID4
+    phonenumber: Optional[str]
+    description: Optional[str]
+    companyimg: Optional[str]
+    companybackgrnd: Optional[str]
+    owner: Optional[UserOut]  # Esto asume que tienes un esquema llamado UserOut
+
+    class Config:
+        from_attributes = True
         orm_mode = True

@@ -81,3 +81,10 @@ class companyService:
             f.write(content)
 
         return new_company
+    
+
+    def getCompanyById(company_id: uuid.UUID):
+        company = company_repo.get_by_id_relation("CompanyId", company_id, relationships=["owner"])
+        if not company:
+            raise ValueError(f"No se encontró una compañía con ID: {company_id}")
+        return company

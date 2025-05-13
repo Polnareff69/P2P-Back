@@ -83,3 +83,12 @@ class GenericRepository:
             return entity
         return None
     
+ 
+
+    def get_by_id_relation(self, name_field ,entity_id, relationships: list = []):
+        query = self.session.query(self.model)
+
+        for rel in relationships:
+            query = query.options(joinedload(getattr(self.model, rel)))
+
+        return query.filter(getattr(self.model, name_field) == entity_id).first()
