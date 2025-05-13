@@ -33,7 +33,7 @@ class ProductServices:
         if not company:
                 return False
         file = product.ProductImg
-        file_location = os.path.join("D:\JJ\P2P-Back-NAS", file.filename)
+        file_location = os.path.join("/home/ubuntu/P2P-Back-NAS", file.filename)
         new_product = Product(
             productid=uuid.uuid4(),  
             name=product.Name,

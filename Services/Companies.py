@@ -56,9 +56,9 @@ class companyService:
     async def createCompanyWithUserImg(company: createCompanyFormData, userName: str):
         user = user_repo.get_by_name("Name", userName)
         companyImg = company.companyimg
-        file_location1 = os.path.join("D:/JJ/P2P-Back-NAS", companyImg.filename)
+        file_location1 = os.path.join("/home/ubuntu/P2P-Back-NAS", companyImg.filename)
         companybackgrnd = company.companybackgrnd
-        file_location2 = os.path.join("D:/JJ/P2P-Back-NAS", companybackgrnd.filename)
+        file_location2 = os.path.join("/home/ubuntu/P2P-Back-NAS", companybackgrnd.filename)
         new_company = Company(
             CompanyId = uuid.uuid4(),
             Name = company.name,
