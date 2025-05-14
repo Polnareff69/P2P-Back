@@ -17,13 +17,14 @@ class ProductServices:
     def createProduct(product: Product, companyId: str):
             company = company_repo.get_by_id("CompanyId", companyId)
             if not company:
-                  return False
+                  id = uuid.uuid4()
+            id = company.CompanyId
             new_product = Product(
                 productid=uuid.uuid4(),  
                 name=product.Name,
                 description=product.Description,
                 price=int(product.Price),
-                companyid = company.CompanyId
+                companyid = id
                 )
             product_repo.create(new_product)
             return JSONResponse(status_code=200, content={"message": "Product created successfully"})
@@ -31,7 +32,9 @@ class ProductServices:
     async def createProductImg(product: createProductFormData, companyId: str):
         company = company_repo.get_by_id("CompanyId", companyId)
         if not company:
-                return False
+                id = uuid.uuid4()
+        else: 
+              id = company.CompanyId
         file = product.ProductImg
         file_location = os.path.join("D:\JJ\P2P-Back-NAS", file.filename)
         new_product = Product(
@@ -39,7 +42,7 @@ class ProductServices:
             name=product.Name,
             description=product.Description,
             price=int(product.Price),
-            companyid = company.CompanyId,
+            companyid = id,
             productimg = file_location
             )
         product_repo.create(new_product)
