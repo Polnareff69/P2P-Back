@@ -17,6 +17,10 @@ class ProductOut(BaseModel):
     price: int
     productimg: str
 
+    class Config:
+        orm_mode = True
+        from_attributes = True  
+
 class createProductFormData(BaseModel):
     Name: Annotated[str, Form()]
     Description: Annotated[str, Form()]
