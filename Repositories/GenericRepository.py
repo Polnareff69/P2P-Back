@@ -13,10 +13,8 @@ class GenericRepository:
     def create(self, data):
         """Crear una nueva entidad."""
         if isinstance(data, self.model):
-            # If data is an instance of the model, we need to create an instance based on the attributes.
             instance = data
         elif isinstance(data, dict):
-            # If data is a dictionary, unpack it to create a new instance.
             instance = self.model(**data)
         else:
             raise TypeError(f"Expected data to be either a dictionary or an instance of {self.model.__name__}, but got {type(data)}")
@@ -72,7 +70,7 @@ class GenericRepository:
         
         if entity:
             for key, value in data.items():
-                if value is None:  # Si el valor es None (equivalente a null en JSON), lo ignoramos.
+                if value is None:
                     continue
                 if hasattr(entity, key):
                     setattr(entity, key, value)

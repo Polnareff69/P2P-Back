@@ -7,6 +7,6 @@ class ProductRepository(GenericRepository):
         super().__init__(session, Product)
 
 
-    def getCompanyProducts(self, id):
+    def get_company_products(self, id):
         productos = self.session.query(Product).filter(Product.companyid == id).all()
         return productos

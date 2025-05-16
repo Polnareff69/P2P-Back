@@ -8,6 +8,6 @@ class UserRepository(GenericRepository):
         super().__init__(session, User)
 
 
-    def getUserCompnies(self, id):
+    def get_user_companies(self, id):
         Companies = self.session.query(User).filter(Company.UserId == id).all()
         return Companies

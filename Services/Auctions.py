@@ -1,21 +1,26 @@
-# Services/auction_service.py
+# services/auction_service.py
 
 import uuid
-from Config.db import conn
-from Models.auction import Auction
-from Models.users import User
-from Models.products import Product
-from Repositories.GenericRepository import GenericRepository
-from Schemas.auctions import AuctionCreate, AuctionUpdate
+from config.db import conn
+from models.auction import Auction
+from models.users import User
+from models.products import Product
+from repositories.generic_repository import GenericRepository
+from schemas.auctions import AuctionCreate, AuctionUpdate
 
+# Instancias de repositorios
 auction_repo = GenericRepository(session=conn, model=Auction)
 user_repo = GenericRepository(session=conn, model=User)
 product_repo = GenericRepository(session=conn, model=Product)
 
 
 class AuctionService:
-    
-    def createAuction(auction: AuctionCreate):
+
+    @staticmethod
+    def create_auction(auction: AuctionCreate):
+        """
+        Crea una nueva subasta después de validar que el usuario y el producto existen.
+        """
         # Validamos que existan las entidades referenciadas
         user = user_repo.get_by_id("UserId", auction.owner_id)
         product = product_repo.get_by_id("productid", auction.product_id)
@@ -34,19 +39,35 @@ class AuctionService:
         )
         return auction_repo.create(new_auction)
 
-    def getAuctionById(auction_id: uuid.UUID):
+    @staticmethod
+    def get_auction_by_id(auction_id: uuid.UUID):
+        """
+        Obtiene una subasta por su ID, incluyendo las relaciones de propietario y producto.
+        """
         auction = auction_repo.get_by_id_relation("id", auction_id, relationships=["owner", "product"])
         if not auction:
             raise ValueError(f"No se encontró la subasta con ID: {auction_id}")
         return auction
 
-    def getAllAuctions():
+    @staticmethod
+    def get_all_auctions():
+        """
+        Obtiene todas las subastas disponibles.
+        """
         return auction_repo.get_all()
 
-    def updateAuction(auction_id: uuid.UUID, auction_data: AuctionUpdate):
+    @staticmethod
+    def update_auction(auction_id: uuid.UUID, auction_data: AuctionUpdate):
+        """
+        Actualiza los datos de una subasta existente.
+        """
         updated = auction_repo.update("id", auction_id, auction_data.dict(exclude_unset=True))
         return updated
 
-    def deleteAuction(auction_id: uuid.UUID):
+    @staticmethod
+    def delete_auction(auction_id: uuid.UUID):
+        """
+        Elimina una subasta por su ID.
+        """
         deleted = auction_repo.delete("id", auction_id)
         return deleted
