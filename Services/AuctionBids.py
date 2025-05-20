@@ -34,7 +34,8 @@ class AuctionBidService:
         return auction_bid_repo.get_by_id_relation("id", bid_id, relationships=["auction", "user"])
 
     def getAllBids():
-        return auction_bid_repo.get_all()
+        return auction_bid_repo.get_all_with_relations(["user"])
+
 
     def deleteBid(bid_id: uuid.UUID):
         return auction_bid_repo.delete("id", bid_id)
