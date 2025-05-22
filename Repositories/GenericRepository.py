@@ -92,3 +92,9 @@ class GenericRepository:
             query = query.options(joinedload(getattr(self.model, rel)))
 
         return query.filter(getattr(self.model, name_field) == entity_id).first()
+
+    def get_all_with_relations(self, relationships: list = []):
+        query = self.session.query(self.model)
+        for rel in relationships:
+            query = query.options(joinedload(getattr(self.model, rel)))
+        return query.all()

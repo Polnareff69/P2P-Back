@@ -7,6 +7,7 @@ from Models.users import User
 from Models.products import Product
 from Repositories.GenericRepository import GenericRepository
 from Schemas.auctions import AuctionCreate, AuctionUpdate
+from Utils.Auth import verify_token
 
 auction_repo = GenericRepository(session=conn, model=Auction)
 user_repo = GenericRepository(session=conn, model=User)
@@ -15,9 +16,11 @@ product_repo = GenericRepository(session=conn, model=Product)
 
 class AuctionService:
     
-    def createAuction(auction: AuctionCreate):
+    def createAuction(auction: AuctionCreate, token: str):
         # Validamos que existan las entidades referenciadas
-        user = user_repo.get_by_id("UserId", auction.owner_id)
+        payload = verify_token(token)
+        user_name = payload.get("sub")
+        user = user_repo.get_by_name("Name", user_name)
         product = product_repo.get_by_id("productid", auction.product_id)
 
         if not user or not product:
@@ -26,7 +29,7 @@ class AuctionService:
         new_auction = Auction(
             id=uuid.uuid4(),
             product_id=auction.product_id,
-            owner_id=auction.owner_id,
+            owner_id=user.UserId,
             start_date=auction.start_date,
             end_date=auction.end_date,
             initial_price=auction.initial_price,

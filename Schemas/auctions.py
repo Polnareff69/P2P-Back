@@ -8,7 +8,6 @@ from Schemas.Products import ProductOut  # Este deberías crearlo también
 
 class AuctionCreate(BaseModel):
     product_id: UUID4
-    owner_id: UUID4
     start_date: datetime
     end_date: datetime
     initial_price: int

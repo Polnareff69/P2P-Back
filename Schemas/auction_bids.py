@@ -20,6 +20,7 @@ class AuctionBidOut(BaseModel):
     auction_id: UUID4
     user_id: UUID4
     bid_amount: int
+    user: Optional[UserOut]
 
     class Config:
         from_attributes = True
