@@ -8,7 +8,6 @@ from Schemas.auctions import AuctionOut
 
 class AuctionBidCreate(BaseModel):
     auction_id: UUID4
-    user_id: UUID4
     bid_amount: int
 
     class Config:

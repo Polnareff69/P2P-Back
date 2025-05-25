@@ -18,7 +18,7 @@ def create_bid(data: AuctionBidCreate, token: str = Depends(oauth2_scheme)):
     if payload is None:
         raise HTTPException(status_code=401, detail="Invalid token")
     try:
-        bid = AuctionBidService.createBid(data)
+        bid = AuctionBidService.createBid(data, token)
         return AuctionBidOut.model_validate(bid)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
